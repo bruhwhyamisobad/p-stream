@@ -46,8 +46,8 @@ importers:
         specifier: ^1.8.0
         version: 1.8.0
       '@p-stream/providers':
-        specifier: github:xp-technologies-dev/providers#production
-        version: https://codeload.github.com/xp-technologies-dev/providers/tar.gz/0cec62538f1aee5bb785b89f26ca76bac87ce796
+        specifier: github:bruhwhyamisobad/providers#production
+        version: https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/0cec62538f1aee5bb785b89f26ca76bac87ce796
       '@plasmohq/messaging':
         specifier: ^0.6.2
         version: 0.6.2(react@18.3.1)
@@ -1647,8 +1647,8 @@ packages:
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
 
-  '@p-stream/providers@https://codeload.github.com/xp-technologies-dev/providers/tar.gz/0cec62538f1aee5bb785b89f26ca76bac87ce796':
-    resolution: {tarball: https://codeload.github.com/xp-technologies-dev/providers/tar.gz/0cec62538f1aee5bb785b89f26ca76bac87ce796}
+  '@p-stream/providers@https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/0cec62538f1aee5bb785b89f26ca76bac87ce796':
+    resolution: {tarball: https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/0cec62538f1aee5bb785b89f26ca76bac87ce796}
     version: 3.2.0
 
   '@pkgjs/parseargs@0.11.0':
@@ -2646,6 +2646,7 @@ packages:
 
   crypto-js@4.2.0:
     resolution: {integrity: sha512-KALDyEYgpY+Rlob/iriUtjV6d5Eq+Y191A5g4UqLAi8CyGP9N1+FdVbkc1SxKc2r4YAYqG8JzO2KGL+AizD70Q==}
+    deprecated: Active development of CryptoJS has been discontinued. This library is no longer maintained.
 
   crypto-random-string@2.0.0:
     resolution: {integrity: sha512-v1plID3y9r/lPhviJ1wrXpLeyUIGAZ2SHNYTEapm7/8A9nLPoyvVp3RK/EPFqn5kEznyWgYZNsRtYYIWbuG8KA==}
@@ -7031,7 +7032,7 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@p-stream/providers@https://codeload.github.com/xp-technologies-dev/providers/tar.gz/0cec62538f1aee5bb785b89f26ca76bac87ce796':
+  '@p-stream/providers@https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/0cec62538f1aee5bb785b89f26ca76bac87ce796':
     dependencies:
       abort-controller: 3.0.0
       cheerio: 1.0.0-rc.12

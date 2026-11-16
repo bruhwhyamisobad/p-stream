@@ -3,6 +3,8 @@ import { labelToLanguageCode } from "@p-stream/providers";
 
 import { CaptionListItem } from "@/stores/player/slices/source";
 
+const FEBBOX_SUBTITLES_BASE_URL = "";
+
 export async function scrapeFebboxCaptions(
   imdbId: string,
   season?: number,
@@ -11,9 +13,9 @@ export async function scrapeFebboxCaptions(
   try {
     let url: string;
     if (season && episode) {
-      url = `https://fed-subs.pstream.mov/tv/${imdbId}/${season}/${episode}`;
+      url = `${FEBBOX_SUBTITLES_BASE_URL}/fed-subs/tv/${imdbId}/${season}/${episode}`;
     } else {
-      url = `https://fed-subs.pstream.mov/movie/${imdbId}`;
+      url = `${FEBBOX_SUBTITLES_BASE_URL}/fed-subs/movie/${imdbId}`;
     }
 
     // console.log("Searching Febbox subtitles with URL:", url);

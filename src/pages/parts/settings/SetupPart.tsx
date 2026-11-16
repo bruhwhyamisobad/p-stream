@@ -23,6 +23,7 @@ import { useAuthStore } from "@/stores/auth";
 import { usePreferencesStore } from "@/stores/preferences";
 
 const testUrl = "https://postman-echo.com/get";
+const FEBBOX_WORKER_BASE_URL = "";
 
 const sleep = (ms: number): Promise<void> => {
   return new Promise((resolve) => {
@@ -65,9 +66,9 @@ export async function fetchFebboxQuota(febboxKey: string | null): Promise<any> {
   }
 
   try {
-    const response = await fetch(
-      `https://aurora.fontaine.lol/traffic?ui=${febboxKey}`,
-    );
+    const response = await fetch(`${FEBBOX_WORKER_BASE_URL}/traffic`, {
+      headers: { Authorization: `Bearer ${febboxKey}` },
+    });
 
     if (!response.ok) {
       return null;
@@ -86,9 +87,9 @@ export async function testFebboxKey(febboxKey: string | null): Promise<Status> {
   }
 
   try {
-    const response = await fetch(
-      `https://aurora.fontaine.lol/traffic?ui=${febboxKey}`,
-    );
+    const response = await fetch(`${FEBBOX_WORKER_BASE_URL}/traffic`, {
+      headers: { Authorization: `Bearer ${febboxKey}` },
+    });
 
     if (!response.ok) {
       if (response.status === 503 || response.status === 502) {

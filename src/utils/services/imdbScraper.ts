@@ -7,6 +7,8 @@ import { useLanguageStore } from "@/stores/language";
 
 import { getTmdbLanguageCode } from "@/utils/locale/language";
 
+const FED_TRAILERS_BASE_URL = "";
+
 // IMDb language code mapping (differs from TMDB format)
 // Map from ISO language code to IMDb language parameter
 const imdbLanguageMap: Record<string, string> = {
@@ -113,7 +115,7 @@ export async function scrapeIMDb(
   if (!hasExtension && !hasProxy) {
     // Custom API for trailers:
     const trailerResponse = await fetch(
-      `https://fed-trailers.pstream.mov/${type === "movie" ? "movie" : "tv"}/${imdbId}`,
+      `${FED_TRAILERS_BASE_URL}/trailers/${type === "movie" ? "movie" : "tv"}/${imdbId}`,
     ).then((res) => res.json());
     if (trailerResponse.trailer?.embed_url) {
       return {

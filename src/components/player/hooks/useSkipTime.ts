@@ -153,7 +153,7 @@ export function useSkipTime() {
 
         const parseSkipTime = (timeStr: string | undefined): number | null => {
           if (!timeStr || typeof timeStr !== "string") return null;
-          const match = timeStr.match(/^($\d+$)s$/);
+          const match = timeStr.match(/^(\d+)s$/);
           if (!match) return null;
           return parseInt(match[1], 10);
         };

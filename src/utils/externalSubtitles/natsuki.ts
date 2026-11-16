@@ -3,8 +3,8 @@ import { labelToLanguageCode } from "@p-stream/providers";
 
 import { CaptionListItem } from "@/stores/player/slices/source";
 
-const NATSUKI_BASE = "https://natsuki.fontaine.lol/subs";
-const CELESTIAL_BASE = "https://natsuki.fontaine.lol/celestial/subs";
+const NATSUKI_SUBS_URL = "";
+const CELESTIAL_SUBS_URL = "";
 
 interface NatsukiSubtitleEntry {
   sid?: string;
@@ -73,7 +73,7 @@ async function fetchCelestialCaptions(
   }
 
   try {
-    const res = await fetch(`${CELESTIAL_BASE}?${params.toString()}`, {
+    const res = await fetch(`${CELESTIAL_SUBS_URL}?${params.toString()}`, {
       method: "GET",
     });
     if (!res.ok) return [];
@@ -118,7 +118,7 @@ export async function scrapeNatsukiCaptions(
   let febboxResults: CaptionListItem[] = [];
   try {
     for (const params of attempts) {
-      const res = await fetch(`${NATSUKI_BASE}?${params.toString()}`, {
+      const res = await fetch(`${NATSUKI_SUBS_URL}?${params.toString()}`, {
         method: "GET",
       });
       if (!res.ok) {

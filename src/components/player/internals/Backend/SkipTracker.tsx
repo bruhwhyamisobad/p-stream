@@ -1,8 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef } from "react";
 
-import { useSkipTimeSource } from "@/components/player/hooks/useSkipTime";
 import { useSkipTracking } from "@/components/player/hooks/useSkipTracking";
 import { usePlayerStore } from "@/stores/player/store";
+import { getTurnstileToken } from "@/utils/hosting/turnstile";
+
+const FED_SKIPS_BASE_URL = "";
+const SKIP_TURNSTILE_SITE_KEY = "0x4AAAAAAB6ocCCpurfWRZyC";
 
 // Import SkipEvent type
 type SkipEvent = NonNullable<ReturnType<typeof useSkipTracking>["latestSkip"]>;
@@ -19,28 +22,41 @@ interface PendingSkip {
   startTime: number;
   endTime: number;
   hasBackwardMovement: boolean;
-  skipTimeSource: "fed-skips" | null;
   timer: ReturnType<typeof setTimeout>;
 }
 
 export function SkipTracker() {
   const { latestSkip } = useSkipTracking(20);
   const lastLoggedSkipRef = useRef<number>(0);
-  const [pendingSkips, setPendingSkips] = useState<PendingSkip[]>([]);
+  const pendingSkipsRef = useRef(new Map<number, PendingSkip>());
   const lastPlayerTimeRef = useRef<number>(0);
 
   // Player metadata for context
   const meta = usePlayerStore((s) => s.meta);
   const progress = usePlayerStore((s) => s.progress);
-  const turnstileToken = "";
-  const skipTimeSource = useSkipTimeSource();
 
   const sendSkipAnalytics = useCallback(
     async (skip: SkipEvent, adjustedConfidence: number) => {
       try {
-        await fetch("https://skips.pstream.mov/send", {
+        if (
+          meta?.type !== "show" ||
+          !meta.tmdbId ||
+          meta.season?.number == null ||
+          meta.episode?.number == null
+        ) {
+          return;
+        }
+        const turnstileToken = await getTurnstileToken(
+          SKIP_TURNSTILE_SITE_KEY,
+        );
+        if (!turnstileToken) throw new Error("Turnstile token unavailable");
+        const baseUrl = FED_SKIPS_BASE_URL.replace(/\/$/, "");
+        await fetch(`${baseUrl}/skips/send`, {
           method: "POST",
-          headers: { "Content-Type": "application/json" },
+          headers: {
+            "Content-Type": "application/json",
+            "Cf-Turnstile-Response": turnstileToken,
+          },
           body: JSON.stringify({
             start_time: skip.startTime,
             end_time: skip.endTime,
@@ -50,52 +66,40 @@ export function SkipTracker() {
             season: meta?.season?.number,
             episode: meta?.episode?.number,
             confidence: adjustedConfidence,
-            turnstile_token: turnstileToken ?? "",
           }),
         });
       } catch (error) {
         console.error("Failed to send skip analytics:", error);
       }
     },
-    [meta, turnstileToken],
+    [meta],
   );
 
   const createPendingSkip = useCallback(
     (skip: SkipEvent) => {
       const timer = setTimeout(() => {
-        // Timer expired, send analytics with final confidence
-        setPendingSkips((prev) => {
-          const pendingSkip = prev.find(
-            (p) => p.skip.timestamp === skip.timestamp,
-          );
-          if (!pendingSkip) return prev;
+        const pendingSkip = pendingSkipsRef.current.get(skip.timestamp);
+        if (!pendingSkip) return;
+        pendingSkipsRef.current.delete(skip.timestamp);
 
-          const adjustedConfidence = pendingSkip.hasBackwardMovement
-            ? Math.max(0.1, pendingSkip.originalConfidence * 0.5) // Reduce confidence by half if adjusted
-            : pendingSkip.originalConfidence;
-
-          // Only send analytics if skip time came from fed-skips
-          if (pendingSkip.skipTimeSource === "fed-skips") {
-            // Send analytics
-            sendSkipAnalytics(pendingSkip.skip, adjustedConfidence);
-          }
-
-          // Remove from pending
-          return prev.filter((p) => p.skip.timestamp !== skip.timestamp);
-        });
+        const adjustedConfidence = pendingSkip.hasBackwardMovement
+          ? Math.max(0.1, pendingSkip.originalConfidence * 0.5)
+          : pendingSkip.originalConfidence;
+        void sendSkipAnalytics(pendingSkip.skip, adjustedConfidence);
       }, 5000); // 5 second delay
 
-      return {
+      const pendingSkip = {
         skip,
         originalConfidence: skip.confidence,
         startTime: skip.startTime,
         endTime: skip.endTime,
         hasBackwardMovement: false,
-        skipTimeSource,
         timer,
       };
+      pendingSkipsRef.current.set(skip.timestamp, pendingSkip);
+      return pendingSkip;
     },
-    [sendSkipAnalytics, skipTimeSource],
+    [sendSkipAnalytics],
   );
 
   useEffect(() => {
@@ -109,8 +113,7 @@ export function SkipTracker() {
     console.log(`Skip session completed: ${latestSkip.skipDuration}s total`);
 
     // Create pending skip with 5-second delay
-    const pendingSkip = createPendingSkip(latestSkip);
-    setPendingSkips((prev) => [...prev, pendingSkip as PendingSkip]);
+    createPendingSkip(latestSkip);
 
     lastLoggedSkipRef.current = latestSkip.timestamp;
   }, [latestSkip, meta, createPendingSkip]);
@@ -125,21 +128,18 @@ export function SkipTracker() {
       currentTime < lastPlayerTimeRef.current
     ) {
       // Backward movement detected, mark relevant pending skips as adjusted
-      setPendingSkips((prev) =>
-        prev.map((pending) => {
-          // Check if we're within the monitoring period (between start and end time of skip)
-          const isWithinSkipRange =
-            currentTime >= pending.startTime && currentTime <= pending.endTime;
-          if (isWithinSkipRange && !pending.hasBackwardMovement) {
-            // eslint-disable-next-line no-console
-            console.log(
-              `Backward adjustment detected for skip, reducing confidence`,
-            );
-            return { ...pending, hasBackwardMovement: true };
-          }
-          return pending;
-        }),
-      );
+      pendingSkipsRef.current.forEach((pending, timestamp) => {
+        const isWithinSkipRange =
+          currentTime >= pending.startTime && currentTime <= pending.endTime;
+        if (isWithinSkipRange && !pending.hasBackwardMovement) {
+          // eslint-disable-next-line no-console
+          console.log(`Backward adjustment detected for skip, reducing confidence`);
+          pendingSkipsRef.current.set(timestamp, {
+            ...pending,
+            hasBackwardMovement: true,
+          });
+        }
+      });
     }
 
     lastPlayerTimeRef.current = currentTime;
@@ -148,11 +148,12 @@ export function SkipTracker() {
   // Cleanup timers on unmount
   useEffect(() => {
     return () => {
-      pendingSkips.forEach((pending) => {
+      pendingSkipsRef.current.forEach((pending) => {
         clearTimeout(pending.timer);
       });
+      pendingSkipsRef.current.clear();
     };
-  }, [pendingSkips]);
+  }, []);
 
   return null;
 }

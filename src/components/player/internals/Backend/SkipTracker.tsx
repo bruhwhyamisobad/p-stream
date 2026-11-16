@@ -4,8 +4,8 @@ import { useSkipTracking } from "@/components/player/hooks/useSkipTracking";
 import { usePlayerStore } from "@/stores/player/store";
 import { getTurnstileToken } from "@/utils/hosting/turnstile";
 
-const FED_SKIPS_BASE_URL = "";
-const SKIP_TURNSTILE_SITE_KEY = "0x4AAAAAAB6ocCCpurfWRZyC";
+const FED_SKIPS_BASE_URL = "https://febbox-api.ruixinhong20.workers.dev";
+const SKIP_TURNSTILE_SITE_KEY = "0x4AAAAAAGC3oQOcZvgjE13D";
 
 // Import SkipEvent type
 type SkipEvent = NonNullable<ReturnType<typeof useSkipTracking>["latestSkip"]>;

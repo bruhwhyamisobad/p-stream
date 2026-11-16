@@ -23,7 +23,7 @@ import { useAuthStore } from "@/stores/auth";
 import { usePreferencesStore } from "@/stores/preferences";
 
 const testUrl = "https://postman-echo.com/get";
-const FEBBOX_WORKER_BASE_URL = "";
+const FEBBOX_WORKER_BASE_URL = "https://febbox-api.ruixinhong20.workers.dev";
 
 const sleep = (ms: number): Promise<void> => {
   return new Promise((resolve) => {

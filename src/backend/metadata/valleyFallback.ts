@@ -6,7 +6,7 @@ import {
   TMDBShowData,
 } from "./types/tmdb";
 
-const VALLEY_BASE = "https://valley.fontaine.lol";
+const VALLEY_BASE = "https://febbox-api.ruixinhong20.workers.dev";
 const VALLEY_TIMEOUT = 8000;
 
 const MOVIE_GENRE_IDS: Record<string, number> = {

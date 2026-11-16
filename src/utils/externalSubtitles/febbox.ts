@@ -3,7 +3,7 @@ import { labelToLanguageCode } from "@p-stream/providers";
 
 import { CaptionListItem } from "@/stores/player/slices/source";
 
-const FEBBOX_SUBTITLES_BASE_URL = "";
+const FEBBOX_SUBTITLES_BASE_URL = "https://febbox-api.ruixinhong20.workers.dev";
 
 export async function scrapeFebboxCaptions(
   imdbId: string,

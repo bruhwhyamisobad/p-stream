@@ -11,7 +11,7 @@ import { getTurnstileToken } from "@/utils/hosting/turnstile";
 
 // Thanks Nemo for this API
 const THE_INTRO_DB_BASE_URL = "https://api.theintrodb.org/v3";
-const FED_SKIPS_BASE_URL = "";
+const FED_SKIPS_BASE_URL = "https://febbox-api.ruixinhong20.workers.dev/skips";
 const INTRODB_BASE_URL = "https://api.introdb.app/intro";
 const MAX_RETRIES = 3;
 

@@ -7,7 +7,7 @@ import { useLanguageStore } from "@/stores/language";
 
 import { getTmdbLanguageCode } from "@/utils/locale/language";
 
-const FED_TRAILERS_BASE_URL = "";
+const FED_TRAILERS_BASE_URL = "https://febbox-api.ruixinhong20.workers.dev";
 
 // IMDb language code mapping (differs from TMDB format)
 // Map from ISO language code to IMDb language parameter

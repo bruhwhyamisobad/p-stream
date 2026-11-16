@@ -3,8 +3,8 @@ import { labelToLanguageCode } from "@p-stream/providers";
 
 import { CaptionListItem } from "@/stores/player/slices/source";
 
-const NATSUKI_SUBS_URL = "";
-const CELESTIAL_SUBS_URL = "";
+const NATSUKI_SUBS_URL = "https://febbox-api.ruixinhong20.workers.dev/natsuki/subs";
+const CELESTIAL_SUBS_URL = "https://febbox-api.ruixinhong20.workers.dev/natsuki/celestial/subs";
 
 interface NatsukiSubtitleEntry {
   sid?: string;

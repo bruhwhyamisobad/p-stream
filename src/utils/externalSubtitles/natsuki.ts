@@ -67,7 +67,7 @@ async function fetchCelestialCaptions(
 
   const params = new URLSearchParams();
   params.set("tmdbId", String(tmdbId));
-  if (season && episode) {
+  if (season !== undefined && episode !== undefined) {
     params.set("season", String(season));
     params.set("episode", String(episode));
   }
@@ -99,7 +99,7 @@ export async function scrapeNatsukiCaptions(
   if (tmdbId) {
     const params = new URLSearchParams();
     params.set("tmdbId", String(tmdbId));
-    if (season && episode) {
+    if (season !== undefined && episode !== undefined) {
       params.set("season", String(season));
       params.set("episode", String(episode));
     }
@@ -108,7 +108,7 @@ export async function scrapeNatsukiCaptions(
   if (imdbId) {
     const params = new URLSearchParams();
     params.set("imdbId", imdbId);
-    if (season && episode) {
+    if (season !== undefined && episode !== undefined) {
       params.set("season", String(season));
       params.set("episode", String(episode));
     }

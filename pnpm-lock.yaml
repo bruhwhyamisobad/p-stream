@@ -47,7 +47,7 @@ importers:
         version: 1.8.0
       '@p-stream/providers':
         specifier: github:bruhwhyamisobad/providers#production
-        version: https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/c5d4a97e02ae8877cf852266da135cc777951afd
+        version: https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/38d7a62ef137c38a349216ab4b6a60fdaf0c8f86
       '@plasmohq/messaging':
         specifier: ^0.6.2
         version: 0.6.2(react@18.3.1)

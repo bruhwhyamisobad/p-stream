@@ -47,7 +47,7 @@ importers:
         version: 1.8.0
       '@p-stream/providers':
         specifier: github:bruhwhyamisobad/providers#production
-        version: https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/db333d9513084e3f567039f1573c9431d96f95f2
+        version: https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/2fca24ac152611c4f105121ea743642698aa54e8
       '@plasmohq/messaging':
         specifier: ^0.6.2
         version: 0.6.2(react@18.3.1)
@@ -1866,8 +1866,8 @@ packages:
     resolution: {integrity: sha512-nn5ozdjYQpUCZlWGuxcJY/KpxkWQs4DcbMCmKojjyrYDEAGy4Ce19NN4v5MduafTwJlbKc99UA8YhSVqq9yPZA==}
     engines: {node: '>=12.4.0'}
 
-  '@p-stream/providers@https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/db333d9513084e3f567039f1573c9431d96f95f2':
-    resolution: {tarball: https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/db333d9513084e3f567039f1573c9431d96f95f2}
+  '@p-stream/providers@https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/2fca24ac152611c4f105121ea743642698aa54e8':
+    resolution: {tarball: https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/2fca24ac152611c4f105121ea743642698aa54e8}
     version: 3.2.0
 
   '@pkgjs/parseargs@0.11.0':
@@ -7343,7 +7343,7 @@ snapshots:
 
   '@nolyfill/is-core-module@1.0.39': {}
 
-  '@p-stream/providers@https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/db333d9513084e3f567039f1573c9431d96f95f2':
+  '@p-stream/providers@https://codeload.github.com/bruhwhyamisobad/providers/tar.gz/2fca24ac152611c4f105121ea743642698aa54e8':
     dependencies:
       abort-controller: 3.0.0
       cheerio: 1.0.0-rc.12

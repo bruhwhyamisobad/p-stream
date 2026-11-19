@@ -12,7 +12,7 @@ export async function scrapeFebboxCaptions(
 ): Promise<CaptionListItem[]> {
   try {
     let url: string;
-    if (season && episode) {
+    if (season !== undefined && episode !== undefined) {
       url = `${FEBBOX_SUBTITLES_BASE_URL}/fed-subs/tv/${imdbId}/${season}/${episode}`;
     } else {
       url = `${FEBBOX_SUBTITLES_BASE_URL}/fed-subs/movie/${imdbId}`;

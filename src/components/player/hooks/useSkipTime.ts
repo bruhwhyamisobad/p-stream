@@ -3,7 +3,6 @@ import { useEffect } from "react";
 // import { proxiedFetch } from "@/backend/helpers/fetch";
 import { mwFetch, proxiedFetch } from "@/backend/helpers/fetch";
 import { usePlayerMeta } from "@/components/player/hooks/usePlayerMeta";
-import { conf } from "@/setup/config";
 import type { PlayerMeta } from "@/stores/player/slices/source";
 import { usePlayerStore } from "@/stores/player/store";
 import { usePreferencesStore } from "@/stores/preferences";
@@ -43,7 +42,6 @@ export interface SegmentData {
 
 export function useSkipTime() {
   const { playerMeta: meta } = usePlayerMeta();
-  const febboxKey = usePreferencesStore((s) => s.febboxKey);
   const cacheKey = getSkipSegmentsCacheKey(meta ?? null);
   const skipSegmentsCacheKey = usePlayerStore((s) => s.skipSegmentsCacheKey);
   const skipSegments = usePlayerStore((s) => s.skipSegments);
@@ -125,14 +123,12 @@ export function useSkipTime() {
 
     const fetchFedSkipsTime = async (retries = 0): Promise<number | null> => {
       if (!meta?.imdbId || meta.type === "movie") return null;
-      if (!conf().ALLOW_FEBBOX_KEY) return null;
-      if (!febboxKey) return null;
 
       try {
         const apiUrl = `${FED_SKIPS_BASE_URL}/${meta.imdbId}/${meta.season?.number}/${meta.episode?.number}`;
 
         const turnstileToken = await getTurnstileToken(
-          "0x4AAAAAAB6ocCCpurfWRZyC",
+          "0x4AAAAAAGC3oQOcZvgjE13D",
         );
         if (!turnstileToken) return null;
 
@@ -217,7 +213,7 @@ export function useSkipTime() {
         let fallbackIntroSegment: SegmentData | null = null;
 
         // Fall back to Fed-skips (TV shows only)
-        if (febboxKey && meta?.type !== "movie") {
+        if (meta?.type !== "movie") {
           const fedSkipsTime = await fetchFedSkipsTime();
           if (fedSkipsTime !== null) {
             currentSkipTimeSource = "fed-skips";
@@ -265,7 +261,6 @@ export function useSkipTime() {
     meta?.type,
     meta?.season?.number,
     meta?.episode?.number,
-    febboxKey,
     setSkipSegments,
     tidbKey,
   ]);

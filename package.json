@@ -4,18 +4,18 @@
   "version": "5.3.7",
   "private": true,
   "homepage": "https://github.com/xp-technologies-dev/p-stream",
-  "scripts": {
+"scripts": {
     "dev": "vite",
     "build": "vite build",
     "build:pwa": "cross-env VITE_PWA_ENABLED=true vite build",
-    "update-and-build": "pnpm remove @p-stream/providers && pnpm add github:p-stream/providers#production && pnpm run build",
+    "update-and-build": "pnpm remove @p-stream/providers && pnpm add git+https://github.com/bruhwhyamisobad/providers.git#production && pnpm run build",
     "update-providers": "pnpm update @p-stream/providers",
     "test": "vitest run",
     "preview": "vite preview",
     "lint": "eslint --ext .tsx,.ts src",
     "lint:fix": "eslint --fix --ext .tsx,.ts src",
     "lint:report": "eslint --ext .tsx,.ts --output-file eslint_report.json --format json src",
-    "preinstall": "npx -y only-allow pnpm"
+    "preinstall": "git config --global url.\"https://$GH_PAT@github.com/\".insteadOf \"https://github.com/\" && npx -y only-allow pnpm"
   },
   "browserslist": {
     "production": [
@@ -39,7 +39,7 @@
     "@ladjs/country-language": "^1.0.3",
     "@marsidev/react-turnstile": "^0.7.2",
     "@noble/hashes": "^1.8.0",
-    "@p-stream/providers": "github:bruhwhyamisobad/providers#production",
+    "@p-stream/providers": "git+https://github.com/bruhwhyamisobad/providers.git#production",
     "@plasmohq/messaging": "^0.6.2",
     "@react-spring/web": "^9.7.5",
     "@ricky0123/vad-web": "^0.0.24",

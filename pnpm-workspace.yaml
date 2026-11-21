@@ -1,0 +1,16 @@
+shamefullyHoist: true
+allowBuilds:
+  "@p-stream/providers@git+https://github.com/bruhwhyamisobad/providers.git#83f24d16650d244299ed7e8773961a7dd203f2c8": true
+  core-js: true
+  esbuild: true
+  onnxruntime-node: false
+  protobufjs: true
+  sharp: true
+overrides:
+  get-func-name@<2.0.1: ">=2.0.1"
+  postcss@<8.4.31: ">=8.4.31"
+  "@babel/traverse@<7.23.2": ">=7.23.2"
+  crypto-js@<4.2.0: ">=4.2.0"
+  rollup: "4.43.0"
+minimumReleaseAgeExclude:
+  - iso-639-1@3.1.7

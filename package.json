@@ -1,23 +1,23 @@
 {
-  "packageManager": "pnpm@9.14.4",
+  "packageManager": "pnpm@12.21.0",
   "name": "P-Stream",
   "version": "5.3.7",
   "private": true,
   "homepage": "https://github.com/xp-technologies-dev/p-stream",
-"scripts": {
-  "dev": "vite",
-  "build": "vite build",
-  "build:pwa": "cross-env VITE_PWA_ENABLED=true vite build",
-  "pnpm:devPreinstall": "test -n \"$GH_PAT\" && AUTH_HEADER=$(printf 'bruhwhyamisobad:%s' \"$GH_PAT\" | base64 | tr -d '\\n') && git config --global --replace-all 'url.https://github.com/.insteadOf' 'git+ssh://git@github.com/' && { git config --global --unset-all http.https://github.com/.extraheader 2>/dev/null || true; } && git config --global --replace-all 'http.https://github.com/bruhwhyamisobad/providers.git/.extraheader' \"AUTHORIZATION: basic $AUTH_HEADER\"",
-  "update-and-build": "pnpm run update-providers && pnpm run build",
-  "update-providers": "pnpm update @p-stream/providers",
-  "test": "vitest run",
-  "preview": "vite preview",
-  "lint": "eslint --ext .tsx,.ts src",
-  "lint:fix": "eslint --fix --ext .tsx,.ts src",
-  "lint:report": "eslint --ext .tsx,.ts --output-file eslint_report.json --format json src",
-  "preinstall": "npx -y only-allow pnpm"
-},
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "build:pwa": "cross-env VITE_PWA_ENABLED=true vite build",
+    "pnpm:devPreinstall": "test -n \"$GH_PAT\" && AUTH_HEADER=$(printf 'bruhwhyamisobad:%s' \"$GH_PAT\" | base64 | tr -d '\\n') && git config --global --replace-all 'url.https://github.com/.insteadOf' 'git+ssh://git@github.com/' && { git config --global --unset-all http.https://github.com/.extraheader 2>/dev/null || true; } && git config --global --replace-all 'http.https://github.com/bruhwhyamisobad/providers.git/.extraheader' \"AUTHORIZATION: basic $AUTH_HEADER\"",
+    "update-and-build": "pnpm run update-providers && pnpm run build",
+    "update-providers": "pnpm update @p-stream/providers",
+    "test": "vitest run",
+    "preview": "vite preview",
+    "lint": "eslint --ext .tsx,.ts src",
+    "lint:fix": "eslint --fix --ext .tsx,.ts src",
+    "lint:report": "eslint --ext .tsx,.ts --output-file eslint_report.json --format json src",
+    "preinstall": "npx -y only-allow pnpm"
+  },
   "browserslist": {
     "production": [
       "defaults",
@@ -139,14 +139,5 @@
     "vite-plugin-static-copy": "^3.1.4",
     "vitest": "^1.6.1",
     "workbox-window": "^7.4.1"
-  },
-  "pnpm": {
-    "overrides": {
-      "get-func-name@<2.0.1": ">=2.0.1",
-      "postcss@<8.4.31": ">=8.4.31",
-      "@babel/traverse@<7.23.2": ">=7.23.2",
-      "crypto-js@<4.2.0": ">=4.2.0",
-      "rollup": "4.43.0"
-    }
   }
 }

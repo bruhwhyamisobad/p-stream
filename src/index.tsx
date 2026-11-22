@@ -225,16 +225,12 @@ function TheRouter(props: { children: ReactNode }) {
 
   if (normalRouter)
     return (
-      <BrowserRouter
-        future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-      >
+      <BrowserRouter>
         {props.children}
       </BrowserRouter>
     );
   return (
-    <HashRouter
-      future={{ v7_startTransition: true, v7_relativeSplatPath: true }}
-    >
+    <HashRouter>
       {props.children}
     </HashRouter>
   );

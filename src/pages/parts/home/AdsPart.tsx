@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, type JSX } from "react";
 import { Icon, Icons } from "@/components/Icon";
 import { conf } from "@/setup/config";
 

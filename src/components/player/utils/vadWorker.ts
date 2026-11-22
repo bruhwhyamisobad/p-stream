@@ -1,6 +1,6 @@
 import { NonRealTimeVAD } from "@ricky0123/vad-web";
 
-const VAD_CDN = "https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.24/dist/";
+const VAD_CDN = "https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.31/dist/";
 const ORT_CDN = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/";
 
 let vadPromise: Promise<NonRealTimeVAD> | null = null;
@@ -14,8 +14,8 @@ function getVad(): Promise<NonRealTimeVAD> {
       },
       positiveSpeechThreshold: 0.5,
       negativeSpeechThreshold: 0.35,
-      minSpeechFrames: 3,
-      redemptionFrames: 12,
+      minSpeechMs: 96,
+      redemptionMs: 384,
     });
   }
   return vadPromise;

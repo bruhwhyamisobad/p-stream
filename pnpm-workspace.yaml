@@ -16,3 +16,4 @@ minimumReleaseAgeExclude:
   - iso-639-1@3.1.7
   - "@rollup/wasm-node@4.68.8"
   - wyzie-lib@2.27.0
+  - i18next@27.2.3

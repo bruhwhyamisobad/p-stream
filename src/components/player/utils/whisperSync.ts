@@ -22,6 +22,14 @@ async function loadPipeline(): Promise<any> {
     const { pipeline, env } = mod as any;
     env.allowLocalModels = false;
     env.useBrowserCache = true;
+
+    // Whisper uses the WASM CPU backend, so use the standard non-asyncify runtime.
+    const ortWasmBase =
+      "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.31.0-dev.20260914-8d85527a0/dist/";
+    env.backends.onnx.wasm.wasmPaths = {
+      mjs: `${ortWasmBase}ort-wasm-simd-threaded.mjs`,
+      wasm: `${ortWasmBase}ort-wasm-simd-threaded.wasm`,
+    };
     const asr = await pipeline(
       "automatic-speech-recognition",
       "Xenova/whisper-tiny.en",

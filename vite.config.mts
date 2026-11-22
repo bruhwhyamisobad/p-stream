@@ -191,21 +191,27 @@ export default defineConfig(({ mode }) => {
     },
 
     resolve: {
-      conditions: [
-        "module",
-        "browser",
-        "development|production",
-        "onnxruntime-web-use-extern-wasm",
+      alias: [
+        {
+          find: /^onnxruntime-web(?:\/webgpu)?$/,
+          replacement: "onnxruntime-web/wasm",
+        },
+        {
+          find: "@",
+          replacement: path.resolve(import.meta.dirname, "./src"),
+        },
+        {
+          find: "@themes",
+          replacement: path.resolve(import.meta.dirname, "./themes"),
+        },
+        {
+          find: "@sozialhelden/ietf-language-tags",
+          replacement: path.resolve(
+            import.meta.dirname,
+            "./node_modules/@sozialhelden/ietf-language-tags/dist/cjs",
+          ),
+        },
       ],
-      alias: {
-        buffer: "buffer/",
-        "@": path.resolve(import.meta.dirname, "./src"),
-        "@themes": path.resolve(import.meta.dirname, "./themes"),
-        "@sozialhelden/ietf-language-tags": path.resolve(
-          import.meta.dirname,
-          "./node_modules/@sozialhelden/ietf-language-tags/dist/cjs",
-        ),
-      },
     },
 
     test: {

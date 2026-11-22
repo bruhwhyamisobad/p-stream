@@ -191,7 +191,12 @@ export default defineConfig(({ mode }) => {
     },
 
     resolve: {
-      conditions: ["onnxruntime-web-use-extern-wasm"],
+      conditions: [
+        "module",
+        "browser",
+        "development|production",
+        "onnxruntime-web-use-extern-wasm",
+      ],
       alias: {
         buffer: "buffer/",
         "@": path.resolve(import.meta.dirname, "./src"),

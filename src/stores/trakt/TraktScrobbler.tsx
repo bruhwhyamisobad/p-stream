@@ -9,10 +9,8 @@ import { TraktContentData } from "@/utils/services/traktTypes";
 
 export function TraktScrobbler() {
   const { accessToken } = useTraktAuthStore();
-  const { status, meta } = usePlayerStore((s) => ({
-    status: s.status,
-    meta: s.meta,
-  }));
+  const status = usePlayerStore((s) => s.status);
+  const meta = usePlayerStore((s) => s.meta);
 
   const lastStatusRef = useRef(status);
   const lastScrobbleRef = useRef<{

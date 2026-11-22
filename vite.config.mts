@@ -6,8 +6,8 @@ import react from "@vitejs/plugin-react";
 import loadVersion from "vite-plugin-package-version";
 import { VitePWA } from "vite-plugin-pwa";
 import checker from "vite-plugin-checker";
-import { handlebars } from "./plugins/handlebars";
-import { PluginOption, loadEnv, splitVendorChunkPlugin } from "vite";
+import { handlebars } from "./plugins/handlebars.ts";
+import { PluginOption, loadEnv } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
 
 import tailwind from "tailwindcss";
@@ -137,20 +137,20 @@ export default defineConfig(({ mode }) => {
         typescript: true, // check typescript build errors in dev server
         eslint: {
           // check lint errors in dev server
-          lintCommand: "eslint --ext .tsx,.ts --max-warnings 999 src",
+          lintCommand: "eslint --max-warnings 999 src",
           dev: {
             logLevel: ["error"],
           },
         },
       }),
-      splitVendorChunkPlugin(),
       visualizer() as PluginOption,
     ],
 
     build: {
+      cssMinify: "esbuild",
       chunkSizeWarningLimit: 2000,
       sourcemap: mode !== "production",
-      rollupOptions: {
+      rolldownOptions: {
         output: {
           manualChunks(id: string) {
             if (
@@ -192,10 +192,10 @@ export default defineConfig(({ mode }) => {
 
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "./src"),
-        "@themes": path.resolve(__dirname, "./themes"),
+        "@": path.resolve(import.meta.dirname, "./src"),
+        "@themes": path.resolve(import.meta.dirname, "./themes"),
         "@sozialhelden/ietf-language-tags": path.resolve(
-          __dirname,
+          import.meta.dirname,
           "./node_modules/@sozialhelden/ietf-language-tags/dist/cjs",
         ),
       },

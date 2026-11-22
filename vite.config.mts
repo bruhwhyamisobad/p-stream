@@ -193,6 +193,7 @@ export default defineConfig(({ mode }) => {
     resolve: {
       conditions: ["onnxruntime-web-use-extern-wasm"],
       alias: {
+        buffer: "buffer/",
         "@": path.resolve(import.meta.dirname, "./src"),
         "@themes": path.resolve(import.meta.dirname, "./themes"),
         "@sozialhelden/ietf-language-tags": path.resolve(

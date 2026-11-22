@@ -1,7 +1,7 @@
 import { NonRealTimeVAD } from "@ricky0123/vad-web";
 
 const VAD_CDN = "https://cdn.jsdelivr.net/npm/@ricky0123/vad-web@0.0.31/dist/";
-const ORT_CDN = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.14.0/dist/";
+const ORT_CDN = "https://cdn.jsdelivr.net/npm/onnxruntime-web@1.31.1/dist/";
 
 let vadPromise: Promise<NonRealTimeVAD> | null = null;
 

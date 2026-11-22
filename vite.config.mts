@@ -191,6 +191,7 @@ export default defineConfig(({ mode }) => {
     },
 
     resolve: {
+      conditions: ["onnxruntime-web-use-extern-wasm"],
       alias: {
         "@": path.resolve(import.meta.dirname, "./src"),
         "@themes": path.resolve(import.meta.dirname, "./themes"),

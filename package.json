@@ -109,13 +109,12 @@
     "handlebars": "^4.7.10",
     "jsdom": "^31.0.1",
     "postcss": "^8.5.33",
-    "postcss-rtlcss": "^4.0.9",
+    "postcss-rtlcss": "^6.0.0",
     "prettier": "^3.10.1",
-    "prettier-plugin-tailwindcss": "^0.5.14",
+    "prettier-plugin-tailwindcss": "^0.8.1",
     "rollup-plugin-visualizer": "^7.1.3",
-    "tailwind-scrollbar": "^3.1.0",
-    "tailwindcss": "^3.4.18",
-    "tailwindcss-themer": "^4.1.1",
+    "tailwind-scrollbar": "^4.0.2",
+    "tailwindcss": "^4.3.5",
     "type-fest": "^6.0.3",
     "typescript": "^6.0.3",
     "typescript-eslint": "^8.73.0",
@@ -125,6 +124,7 @@
     "vite-plugin-pwa": "^2.0.0",
     "vite-plugin-static-copy": "^4.1.1",
     "vitest": "^5.1.1",
-    "workbox-window": "^7.4.1"
+    "workbox-window": "^7.4.1",
+    "@tailwindcss/postcss": "^4.3.5"
   }
 }

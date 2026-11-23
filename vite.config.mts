@@ -10,7 +10,8 @@ import { handlebars } from "./plugins/handlebars.ts";
 import { PluginOption, loadEnv } from "vite";
 import { visualizer } from "rollup-plugin-visualizer";
 
-import tailwind from "tailwindcss";
+import tailwindcss from "@tailwindcss/postcss";
+import { tailwindThemesPlugin } from "./plugins/tailwindThemes.ts";
 import rtl from "postcss-rtlcss";
 
 // Build id for the "new version available" update-notice: the deploying
@@ -53,6 +54,7 @@ export default defineConfig(({ mode }) => {
     },
     plugins: [
       emitVersionJSON(),
+      tailwindThemesPlugin(),
       handlebars({
         vars: {
           opensearchEnabled: env.VITE_OPENSEARCH_ENABLED === "true",
@@ -186,7 +188,7 @@ export default defineConfig(({ mode }) => {
     },
     css: {
       postcss: {
-        plugins: [tailwind(), rtl()],
+        plugins: [tailwindcss(), rtl()],
       },
     },
 

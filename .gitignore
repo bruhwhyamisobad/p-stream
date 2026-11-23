@@ -12,6 +12,7 @@ node_modules
 /dist
 dev-dist
 /stats.html
+/src/assets/css/themes.css
 
 # misc
 .DS_Store

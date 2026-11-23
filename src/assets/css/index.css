@@ -1,12 +1,79 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
+@import "virtual:themes.css";
+@plugin "tailwind-scrollbar";
+@custom-variant dir-neutral ([dir] &);
+@theme {
+  --breakpoint-xs: 350px;
+  --breakpoint-ssm: 400px;
+  --breakpoint-2xl: 1921px;
+  --breakpoint-3xl: 2650px;
+  --breakpoint-4xl: 3840px;
+  --font-main: "DM Sans", sans-serif;
+  --shadow-soft-sm: 0 2px 8px rgba(0, 0, 0, 0.18);
+  --shadow-soft-md: 0 8px 24px rgba(0, 0, 0, 0.28);
+  --shadow-soft-lg: 0 18px 60px rgba(0, 0, 0, 0.45);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --animate-loading-pin: loading-pin 1.8s ease-in-out infinite;
+  --animate-fade-in: fade-in 200ms ease-out forwards;
+  --animate-gradient-flow: gradient-flow 8s linear infinite;
+  --animate-seek-left: seek-left 0.5s cubic-bezier(0, 0, 0.2, 1) forwards;
+  --animate-seek-right: seek-right 0.5s cubic-bezier(0, 0, 0.2, 1) forwards;
+  @keyframes loading-pin {
+    0%,
+    40%,
+    100% {
+      height: 0.5em;
+      background-color: #282336;
+    }
+    20% {
+      height: 1em;
+      background-color: white;
+    }
+  }
+  @keyframes fade-in {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+  @keyframes gradient-flow {
+    0% {
+      background-position: 0% 50%;
+    }
+    100% {
+      background-position: 300% 50%;
+    }
+  }
+  @keyframes seek-left {
+    0% {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(-50px) scale(1.2);
+      opacity: 0;
+    }
+  }
+  @keyframes seek-right {
+    0% {
+      transform: translateX(0) scale(1);
+      opacity: 1;
+    }
+    100% {
+      transform: translateX(50px) scale(1.2);
+      opacity: 0;
+    }
+  }
+}
 
 html,
 body {
   font-family: "Lato", sans-serif !important;
-  @apply bg-background-main !important;
+  background-color: var(--color-background-main) !important;
   @apply font-main text-type-text;
   min-height: 100vh;
   min-height: 100dvh;
@@ -17,7 +84,8 @@ body {
 
 @layer base {
   .theme-transition * {
-    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-property:
+      color, background-color, border-color, text-decoration-color, fill, stroke;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     transition-duration: 300ms;
   }
@@ -232,7 +300,7 @@ input[type="range"].styled-slider.slider-progress::-ms-fill-lower {
 /* Modern thin rounded scrollbar */
 * {
   scrollbar-width: thin;
-  scrollbar-color: theme("colors.video.context.border") transparent;
+  scrollbar-color: var(--color-video-context-border) transparent;
 }
 
 ::-webkit-scrollbar {
@@ -246,7 +314,7 @@ input[type="range"].styled-slider.slider-progress::-ms-fill-lower {
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: theme("colors.video.context.border");
+  background-color: var(--color-video-context-border);
   border-radius: 10px;
   transition: background-color 0.2s ease;
 }
@@ -268,21 +336,17 @@ input[type="range"].styled-slider.slider-progress::-ms-fill-lower {
 }
 
 .tabbable:focus-visible {
-  outline: 2px solid theme("colors.themePreview.primary");
-  box-shadow: 0 0 10px theme("colors.themePreview.secondary");
+  outline: 2px solid var(--color-themePreview-primary);
+  box-shadow: 0 0 10px var(--color-themePreview-secondary);
 }
 
 [dir="rtl"] .transform {
   /* Invert horizontal X offset on transform (Tailwind RTL plugin does the rest) */
-  transform: translate(calc(var(--tw-translate-x) * -1), var(--tw-translate-y))
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
+  translate: calc(var(--tw-translate-x) * -1) var(--tw-translate-y) !important;
 }
 [dir="ltr"] .transform {
   /* default - otherwise it overwrites*/
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y))
-    rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y))
-    scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
+  translate: var(--tw-translate-x) var(--tw-translate-y) !important;
 }
 
 @keyframes jiggle {

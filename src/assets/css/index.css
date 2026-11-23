@@ -1,6 +1,8 @@
 @import url("https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=PT+Serif:ital,wght@0,400;0,700;1,400;1,700&display=swap");
-@import "tailwindcss";
-@import "virtual:themes.css";
+@import "tailwindcss" source(none);
+@import "./themes.css";
+@source "../../../index.html";
+@source "../../";
 @plugin "tailwind-scrollbar";
 @custom-variant dir-neutral ([dir] &);
 @theme {
@@ -411,7 +413,13 @@ input[type="range"].styled-slider.slider-progress::-ms-fill-lower {
     black calc(100% - var(--mask-fade-distance)),
     transparent
   );
-  mask-image: var(-webkit-mask-image);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black var(--mask-fade-distance),
+    black calc(100% - var(--mask-fade-distance)),
+    transparent
+  );
   z-index: 1;
 }
 
@@ -422,7 +430,12 @@ input[type="range"].styled-slider.slider-progress::-ms-fill-lower {
     black calc(100% - var(--mask-fade-distance)),
     transparent
   );
-  mask-image: var(-webkit-mask-image);
+  mask-image: linear-gradient(
+    to bottom,
+    black,
+    black calc(100% - var(--mask-fade-distance)),
+    transparent
+  );
 }
 
 .vertical-carousel-container.hide-bottom-gradient {
@@ -432,7 +445,12 @@ input[type="range"].styled-slider.slider-progress::-ms-fill-lower {
     black var(--mask-fade-distance),
     black
   );
-  mask-image: var(-webkit-mask-image);
+  mask-image: linear-gradient(
+    to bottom,
+    transparent,
+    black var(--mask-fade-distance),
+    black
+  );
 }
 
 .vertical-carousel-container.hide-top-gradient.hide-bottom-gradient {

@@ -1,6 +1,7 @@
+import fs from "node:fs";
+import path from "node:path";
 import type { PluginOption } from "vite";
 import { allThemes, defaultTheme } from "../themes";
-import { colorToRgbString } from "../src/utils/format/color";
 
 function flattenColors(
   obj: Record<string, unknown>,
@@ -11,57 +12,63 @@ function flattenColors(
     const next = prefix ? `${prefix}-${key}` : key;
     if (typeof val === "string") {
       out[next] = val;
-    } else if (val && typeof val === "object" && !Array.isArray(val)) {
+    } else if (val && typeof val === "object") {
       flattenColors(val as Record<string, unknown>, next, out);
     }
   }
   return out;
 }
 
-export function buildThemesCSS(): string {
-  const defaultColors = flattenColors(
-    defaultTheme.extend.colors as Record<string, unknown>,
-  );
-  const allKeys = new Set<string>(Object.keys(defaultColors));
-  const themeBlocks: string[] = [];
-
-  const defaultVars = Object.entries(defaultColors)
-    .map(([key, value]) => `  --colors-${key}: ${colorToRgbString(value)};`)
+function formatVars(colors: Record<string, string>): string {
+  return Object.entries(colors)
+    .map(([k, v]) => `  --color-${k}: ${v};`)
     .join("\n");
-  themeBlocks.push(`:root, .theme-default {\n${defaultVars}\n}`);
+}
+
+function buildThemesCSS(): string {
+  const defaultColors = flattenColors(defaultTheme.extend.colors);
+  const allKeys = new Set<string>(Object.keys(defaultColors));
+  const themeBlocks: string[] = [
+    `:root, .theme-default {\n${formatVars(defaultColors)}\n}`,
+  ];
 
   for (const theme of allThemes) {
-    const colors = flattenColors(
-      (theme.extend?.colors ?? {}) as Record<string, unknown>,
-    );
-    for (const key of Object.keys(colors)) allKeys.add(key);
-
-    const selectors = (theme.selectors ?? [`.theme-${theme.name}`]).join(", ");
-    const vars = Object.entries(colors)
-      .map(([key, value]) => `  --colors-${key}: ${colorToRgbString(value)};`)
-      .join("\n");
-
-    if (vars) themeBlocks.push(`${selectors} {\n${vars}\n}`);
+    const colors = flattenColors(theme.extend?.colors ?? {});
+    for (const k of Object.keys(colors)) allKeys.add(k);
+    const vars = formatVars(colors);
+    if (vars) {
+      themeBlocks.push(`${theme.selectors.join(", ")} {\n${vars}\n}`);
+    }
   }
 
   const inlineTheme = Array.from(allKeys)
-    .map((key) => `  --color-${key}: rgb(var(--colors-${key}));`)
+    .map((k) => `  --color-${k}: var(--color-${k});`)
     .join("\n");
 
-  return `${themeBlocks.join("\n\n")}\n\n@theme inline {\n${inlineTheme}\n}\n`;
+  return `/* Auto-generated from themes/ — do not edit manually */\n${themeBlocks.join("\n\n")}\n\n@theme inline {\n${inlineTheme}\n}\n`;
 }
 
 export function tailwindThemesPlugin(): PluginOption {
-  const virtualId = "virtual:themes.css";
-  const resolvedVirtualId = "\0" + virtualId;
+  const outPath = path.resolve(
+    import.meta.dirname,
+    "../src/assets/css/themes.css",
+  );
+
+  const writeThemesIfChanged = () => {
+    const next = buildThemesCSS();
+    const prev = fs.existsSync(outPath) ? fs.readFileSync(outPath, "utf8") : "";
+    if (prev !== next) {
+      fs.mkdirSync(path.dirname(outPath), { recursive: true });
+      fs.writeFileSync(outPath, next, "utf8");
+    }
+  };
+
+  writeThemesIfChanged();
 
   return {
     name: "tailwind-themes-v4",
-    resolveId(id) {
-      if (id === virtualId) return resolvedVirtualId;
-    },
-    load(id) {
-      if (id === resolvedVirtualId) return buildThemesCSS();
+    buildStart() {
+      writeThemesIfChanged();
     },
   };
 }
